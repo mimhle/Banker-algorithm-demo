@@ -13,12 +13,8 @@
     }
 
     const removeRow = (at = -1) => {
-        if (table.length === 1) {
-            return
-        }
-        if (at === -1) {
-            at = table.length - 1
-        }
+        if (table.length === 1) return;
+        if (at === -1) at = table.length - 1;
         table = table.filter((_, i) => i !== at)
     }
 
@@ -27,20 +23,16 @@
     }
 
     const removeColumn = (at = -1) => {
-        if (table[0].length === 1) {
-            return
-        }
-        if (at === -1) {
-            at = table[0].length - 1
-        }
+        if (table[0].length === 1) return;
+        if (at === -1) at = table[0].length - 1;
         table = table.map(row => {
-            row.splice(at, 1)
-            return row
+            row.splice(at, 1);
+            return row;
         })
     }
 
-    const cellWidth = "w-14"
-    const cellHeight = "h-10"
+    const cellWidth = "w-14";
+    const cellHeight = "h-10";
 </script>
 
 <div class="flex flex-col items-center w-fit">
@@ -82,8 +74,10 @@
                 </div>
             {/each}
             <div class="{cellWidth} {cellHeight} flex flex-row justify-center gap-1">
-                <button class="m-0 disabled:opacity-50" on:click={() => addColumn()} {disabled}><i class="fa fa-plus"></i></button>
-                <button class="m-0 disabled:opacity-50" on:click={() => removeColumn()} {disabled}><i class="fa fa-minus"></i></button>
+                <button class="m-0 disabled:opacity-50" on:click={() => addColumn()} {disabled}><i
+                        class="fa fa-plus"></i></button>
+                <button class="m-0 disabled:opacity-50" on:click={() => removeColumn()} {disabled}><i
+                        class="fa fa-minus"></i></button>
             </div>
         </div>
     {/each}
