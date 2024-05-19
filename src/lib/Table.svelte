@@ -1,10 +1,11 @@
 <script>
     export let title;
-    export let disabled = false;
+    export let disabled;
     export let xLabel = true;
     export let yLabel = true;
     export let xLabels = [];
     export let yLabels = [];
+    export let offset = false;
 
     export let table = [
         [0, 0, 0],
@@ -31,7 +32,9 @@
             </div>
         {/if}
     </div>
-
+    {#if offset}
+        <div class="{cellWidth} {cellHeight}"/>
+    {/if}
     {#each table as row, i (i)}
         <div class="flex flex-row">
             {#if yLabel}
@@ -45,15 +48,16 @@
                 <div class="{cellWidth} {cellHeight} border border-black flex flex-col justify-center">
                     <input
                             type="number"
-                            class="w-full h-full text-center {table[i][j] < 0 ? `bg-red-300` : ``}"
+                            class="w-full h-full text-center {table[i][j] < 0 ? `bg-red-300` : ``} {disabled?.[i] ?? disabled ? `hide-spin-button` : ``}"
                             min="0"
                             max="999"
                             on:blur={(e) => {
                                  e.target.value = Math.min(999, Math.max(0, e.target.value))
-                                 table[i][j] = e.target.value
+                                 table[i][j] = parseInt(e.target.value.toString())
                             }}
-                            bind:value={table[i][j]}
-                            {disabled}
+                            value={table[i][j]}
+                            on:change={(e) => table[i][j] = parseInt(e.target.value)}
+                            disabled={disabled?.[i] ?? disabled}
                     />
                 </div>
             {/each}

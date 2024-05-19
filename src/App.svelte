@@ -7,6 +7,7 @@
         [1, 2, 3],
         [4, 5, 6],
         [7, 8, 9],
+        [10, 11, 12],
     ];
 
     let max = [
@@ -26,6 +27,8 @@
         [0, 0, 0],
         [0, 0, 0]
     ];
+
+    let order = [[1], [2], [3]];
 
     let xLabels = max[0].map((_, i) => `R${i+1}`);
     let yLabels = max.map((_, i) => `P${i+1}`);
@@ -49,10 +52,13 @@
     }
 
     $: {
-        let banker = new Solver(available, max, allocation);
         xLabels = max[0].map((_, i) => `R${i+1}`);
         yLabels = max.map((_, i) => `P${i+1}`);
+
+        let banker = new Solver(available, max, allocation);
         need = banker.need;
+        available = banker.available;
+        order = banker.order.map((e) => [e]);
     }
 </script>
 
@@ -70,9 +76,10 @@
         Randomize
     </button>
     <div class="my-3 w-full flex flex-row justify-center gap-3">
-        <Table title="Max" bind:table={max} {xLabels} {yLabels}/>
-        <Table title="Allocation" bind:table={allocation} yLabel={false} {xLabels} {yLabels}/>
-        <Table title="Need" bind:table={need} yLabel={false} disabled {xLabels} {yLabels}/>
-        <Table title="Available" bind:table={available} {xLabels} yLabel={false} disabled/>
+        <Table title="Max" bind:table={max} {xLabels} {yLabels} offset disabled={false}/>
+        <Table title="Allocation" bind:table={allocation} yLabel={false} {xLabels} {yLabels} offset disabled={false}/>
+        <Table title="Need" bind:table={need} yLabel={false} disabled {xLabels} {yLabels} offset/>
+        <Table title="Available" bind:table={available} {xLabels} yLabel={false} disabled={available.map((_, i) => i !== 0)}/>
+        <Table title="&#8288;" bind:table={order} xLabels={["Nₒ."]} yLabel={false} disabled offset/>
     </div>
 </main>
