@@ -1,7 +1,7 @@
 # Banker's Algorithm web demo
 Final project for Operating Systems course
 
-A live demo can be found [here](https://mimhle.github.io/Banker-algorithm-demo/dist/).
+A live demo can be found [here](https://mimhle.github.io/Banker-algorithm-demo/).
 
 This project is a web demo of Banker's Algorithm, implemented using Svelte and Tailwind CSS.
 
