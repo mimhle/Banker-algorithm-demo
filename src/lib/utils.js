@@ -22,6 +22,10 @@ export const removeColumn = (table, at = -1) => {
     })
 }
 
+export const randomizeNumber = (min = 0, max = 10) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 export const randomizeTable = (table, min = 0, max = 10) => {
     return table.map(row => row.map(() => Math.floor(Math.random() * (max - min + 1)) + min));
 }

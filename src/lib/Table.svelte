@@ -6,28 +6,27 @@
     export let xLabels = [];
     export let yLabels = [];
     export let offset = false;
+    export let onXLabelsClick = () => {};
+    export let onYLabelsClick = () => {};
 
-    export let table = [
-        [0, 0, 0],
-        [0, 0, 0],
-        [0, 0, 0],
-    ];
+    export let table;
 
     const cellWidth = "w-14";
     const cellHeight = "h-10";
 </script>
 
 <div class="flex flex-col items-center w-fit">
-    <div class="ml-auto">
+    <div class={xLabel ? `ml-auto` : ``}>
         <h2 class="m-auto text-lg font-bold w-fit flex flex-row justify-center">
             {title}
         </h2>
         {#if xLabel}
-            <div class="flex flex-row w-fit">
+            <div class="flex flex-row w-fit mx-auto">
                 {#each table[0] as cell, i (i)}
-                    <span class="{cellWidth} my-auto text-center">
+                    <button class="{cellWidth} my-auto py-2 text-center hover:bg-gray-200 disabled:!bg-inherit"
+                            on:click={() => onXLabelsClick(i)} {disabled}>
                         {xLabels?.[i] ?? i + 1}
-                    </span>
+                    </button>
                 {/each}
             </div>
         {/if}
@@ -39,15 +38,16 @@
         <div class="flex flex-row">
             {#if yLabel}
                 <div class="{cellWidth} {cellHeight} flex flex-col justify-center">
-                    <span class="w-full h-full my-auto text-center flex flex-col justify-center">
+                    <button class="w-full h-full my-auto text-center flex flex-col justify-center hover:bg-gray-200 disabled:!bg-inherit"
+                            on:click={() => onYLabelsClick(i)}>
                         {yLabels?.[i] ?? i + 1}
-                    </span>
+                    </button>
                 </div>
             {/if}
             {#each row as cell, j (j)}
                 <div class="{cellWidth} {cellHeight} border border-black flex flex-col justify-center">
                     <input
-                            type="number"
+                            type={disabled?.[i] ?? disabled ? "text" : "number"}
                             class="w-full h-full text-center {table[i][j] < 0 ? `bg-red-300` : ``} {disabled?.[i] ?? disabled ? `hide-spin-button` : ``}"
                             min="0"
                             max="999"

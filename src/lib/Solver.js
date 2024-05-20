@@ -37,7 +37,8 @@ class Solver {
             }
             if (!found) break;
         }
-        this.order = result;
+        this.safeSequence = result;
+        this.order = this.need.map((_, i) => result.indexOf(i) + 1).map((v, _) => v === 0 ? -1 : v);
 
         while (this.available.length <= this.max.length) {
             this.available.push(this.available.at(-1).map(() => -1));
