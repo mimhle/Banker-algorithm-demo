@@ -35,6 +35,8 @@
     let xLabels = $max[0].map((_, i) => `R${i+1}`);
     let yLabels = $max.map((_, i) => `P${i+1}`);
 
+    let safe = false;
+
     const addProcess = () => {
         $max = addRow($max);
         $allocation = addRow($allocation);
@@ -64,6 +66,7 @@
     }
 
     $: {
+        safe = false;
         xLabels = $max[0].map((_, i) => `R${i+1}`);
         yLabels = $max.map((_, i) => `P${i+1}`);
 
@@ -72,6 +75,11 @@
         $available = banker.available;
         order = banker.order.map((e) => [e]);
         safeSequence = banker.safeSequence;
+
+        if(need.every((row, _) => row.every((v, __) => v >= 0))) {
+            if($available.every((row, _) => row.every((v, __) => v >= 0))) safe = true;
+        }
+            
     }
 </script>
 
@@ -103,7 +111,13 @@
             <i class="fa fa-minus fa-lg"></i>
         </button>
     </div>
-    <div class="flex flex-row justify-center gap-3 my-3">
-        <Table title="Safe sequence" table={[safeSequence.map((v, _) => yLabels[v])]} yLabel={false} xLabel={false} disabled/>
-    </div>
+    {#if safe}
+        <div class="flex flex-row justify-center gap-3 my-3">
+            <Table title="Safe sequence" table={[safeSequence.map((v, _) => yLabels[v])]} yLabel={false} xLabel={false} disabled/>
+        </div>
+    {:else}
+        <div class="flex flex-row justify-center gap-3 my-3">
+            <Table title="Unsafe state" table={[]} yLabel={false} xLabel={false} disabled/>
+        </div>
+    {/if}
 </main>
